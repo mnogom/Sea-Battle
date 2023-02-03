@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "sea_battle"
+version = "0.1.0"
+description = ""
+authors = ["Konstantin Freidlin <freidlinks@ya.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.2.1"
+flake8 = "^6.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+sea-battle = "sea_battle.scripts.sea_battle:main"
