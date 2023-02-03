@@ -1,6 +1,7 @@
 ## Sea Battle
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/4020dd3d476b5a716e5d/maintainability)](https://codeclimate.com/github/mnogom/sea-battle/maintainability)
+[![python-ci](https://github.com/mnogom/sea-battle/actions/workflows/python-ci.yml/badge.svg)](https://github.com/mnogom/sea-battle/actions/workflows/python-ci.yml)
 
 ----
 
