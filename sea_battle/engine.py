@@ -20,7 +20,7 @@ DIRECTIONS = (
 )
 
 PLAYER_TURN = "player"
-AI_TURN = "turn"
+AI_TURN = "ai"
 
 
 def _create_field(x_len: int = 10, y_len: int = 10) -> Field:
@@ -125,7 +125,7 @@ def play() -> None:
 
     while player_field.can_shoot() and ai_field.can_shoot():
         if turn == PLAYER_TURN:
-            bullet_coord = input(" >> (row column) > ")
+            bullet_coord = input(" (row col) > ")
             x, y = bullet_coord.split(" ")
             x = int(x)
             y = int(y)
@@ -134,8 +134,6 @@ def play() -> None:
             except SBReHitCell:
                 print("Already hit there. Try again")
                 continue
-
-            render_fields(player_field, ai_field)
             turn = AI_TURN
         else:
             hited_cells = player_field.get_hited_cells()
@@ -144,9 +142,9 @@ def play() -> None:
 
             player_field = _make_shoot(player_field, bullet_coord)
             turn = PLAYER_TURN
-            render_fields(player_field, ai_field)
+        render_fields(player_field, ai_field)
 
     if player_field.can_shoot():
         print("Congratulations! You win!")
-    if ai_field.can_shoot():
+    else:
         print("Nice try! Try again.")

@@ -26,7 +26,7 @@ class Ship:
         safe_area = safe_area.difference(set(deck_coords))
         return safe_area
 
-    def get_decks_statuses(self) -> list:
+    def get_decks_statuses(self) -> list[str]:
         return self._deck_statuses
 
     def get_deck_index(self, coord: tuple[int, int]) -> int:
@@ -34,7 +34,7 @@ class Ship:
         deck_index = coords.index(coord)
         return deck_index
 
-    def get_deck_status(self, deck_index):
+    def get_deck_status(self, deck_index: int) -> str:
         return self.get_decks_statuses()[deck_index]
 
     def set_deck_status(self, deck_index: int, status: str) -> None:
