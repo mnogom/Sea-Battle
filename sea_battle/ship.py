@@ -1,7 +1,5 @@
 """Ship class."""
 
-from exceptions import SBMissedBullet
-
 DAMAGED = "damaged"
 UNDAMAGED = "undamaged"
 
@@ -16,17 +14,16 @@ class Ship:
 
     def get_safe_area(self, x_max: int, y_max: int) -> set:
         safe_area = set()
+        deck_coords = self.get_coords()
 
         for dx in range(-1, 2):
             for dy in range(-1, 2):
-                if dx == 0 and dy == 0:
-                    continue
-                coords = self.get_coords()
-                for (x, y) in coords:
+                for (x, y) in deck_coords:
                     safe_x = x + dx
                     safe_y = y + dy
                     if 0 <= safe_x <= x_max and 0 <= safe_y <= y_max:
                         safe_area.add((safe_x, safe_y))
+        safe_area = safe_area.difference(set(deck_coords))
         return safe_area
 
     def get_decks_statuses(self) -> list:
@@ -44,11 +41,10 @@ class Ship:
         self._deck_statuses[deck_index] = status
 
     def is_eliminated(self) -> bool:
-        return all([deck_status == DAMAGED for deck_status in self.get_decks_statuses()])
+        return all([deck_status == DAMAGED
+                    for deck_status in self.get_decks_statuses()])
 
     def receive_damage(self, bullet_coord: tuple[int, int]) -> None:
         coord = self.get_coords()
-        if bullet_coord not in coord:
-            raise SBMissedBullet(f"Bullet {bullet_coord} can't damage ship")
         deck_index = coord.index(bullet_coord)
         self.set_deck_status(deck_index, DAMAGED)

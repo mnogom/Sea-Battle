@@ -1,9 +1,6 @@
 """Exceptions."""
 
 
-class SBMissedBullet(Exception):
-    pass
-
-
-class SBUnknownStatus(Exception):
+class SBReHitCell(Exception):
+    """Double hited one cell."""
     pass

@@ -1,6 +1,6 @@
 """Field."""
 
-from ship import Ship
+from sea_battle.ship import Ship
 
 
 class Field:
@@ -8,9 +8,9 @@ class Field:
         self._x_len = x_len
         self._y_len = y_len
         self._ships = []
-        self._missed_bullets = set()
+        self._hited_cells = set()
 
-    def get_ships(self) -> list:
+    def get_ships(self) -> list[Ship]:
         return self._ships
 
     def add_ship(self, *ships: Ship) -> None:
@@ -22,11 +22,11 @@ class Field:
     def get_y_len(self) -> int:
         return self._y_len
 
-    def add_missed_bullet(self, *bullet_coord: tuple[int, int]) -> None:
-        self._missed_bullets = self._missed_bullets.union(set(bullet_coord))
+    def add_hited_cell(self, *bullet_coord: tuple[int, int]) -> None:
+        self._hited_cells = self._hited_cells.union(set(bullet_coord))
 
-    def get_missed_bullets(self) -> set[tuple[int, int]]:
-        return self._missed_bullets
+    def get_hited_cells(self) -> set[tuple[int, int]]:
+        return self._hited_cells
 
     def get_ship_intersection(self, coord: tuple[int, int]) -> Ship | None:
         ships = self.get_ships()
@@ -36,6 +36,7 @@ class Field:
         return None
 
     def receive_bullet(self, bullet_coord: tuple[int, int]) -> None:
+        self.add_hited_cell(bullet_coord)
         target_ship = self.get_ship_intersection(bullet_coord)
         if target_ship:
             target_ship.receive_damage(bullet_coord)
@@ -43,6 +44,8 @@ class Field:
                 x_max = self.get_x_len() - 1
                 y_max = self.get_y_len() - 1
                 safe_area = target_ship.get_safe_area(x_max, y_max)
-                self.add_missed_bullet(*safe_area)
-            return
-        self.add_missed_bullet(bullet_coord)
+                self.add_hited_cell(*safe_area)
+
+    def can_shoot(self):
+        ships = self.get_ships()
+        return not all(ship.is_eliminated() for ship in ships)
